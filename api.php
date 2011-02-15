@@ -41,6 +41,7 @@ switch ($xaction) {
         // get directory listing
         $destfile =  $DATAS['path'];
         $target =  buildPath($BASE_PATH, $destfile); 
+       // print $target;
         if (!is_dir(  $target )) {
             $json = array();
         }

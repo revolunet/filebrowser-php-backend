@@ -13,6 +13,8 @@ require('utils.php');
 require('config.php');
 
 $success = false;
+ 
+// du upload stuff
 
 if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
     // classic upload
@@ -20,15 +22,17 @@ if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
         $destfile =  $file['name'];
         checkVar( $destfile );
         $target =  buildPath($BASE_PATH, $destfile);
-        if (move_uploaded_file($file['tmp_name'], $target))
-        $success = true;
+        if (move_uploaded_file($file['tmp_name'], $target)) $success = true;
     }
 } else {
     // HTML5 single file upload
     $destfile =  $_SERVER['HTTP_X_FILE_NAME'];
     checkVar( $destfile );
     $target =  buildPath($BASE_PATH, $destfile);
-    file_put_contents($target, file_get_contents("php://input"));
+    if (!@file_put_contents($target, file_get_contents("php://input"))) {
+        print jsonResponse(false, 'cannot create file');
+        break;
+    }
     $success = true;
 }
 

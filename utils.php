@@ -5,13 +5,14 @@
 
 function getDirListing( $inDir ) {
     // returns a JSON sirectory listing
+    $index = 0;
     $files = array();
     $hd = opendir(  $inDir  );
     while ($file = readdir($hd)) {
         if ($file != '.' and $file != '..') {
             $files[$index]['text'] = $file;
             $files[$index]['lastmod'] = 1272391250000;
-            if (!is_dir($inDir .'/'.$file)) {
+            if (!is_dir($inDir .DIRECTORY_SEPARATOR.$file)) {
                 $files[$index]['leaf'] = true;
                 $files[$index]['size'] = filesize($inDir .DIRECTORY_SEPARATOR.$file);
             }
@@ -58,8 +59,8 @@ function checkJail($dir, $jail){
     $dir = get_absolute_path($dir);
     $jail = get_absolute_path($jail);
     
-    $dir = count(explode('/', $dir));
-    $jail = count(explode('/', $jail));
+    $dir = count(explode(DIRECTORY_SEPARATOR, $dir));
+    $jail = count(explode(DIRECTORY_SEPARATOR, $jail));
     
     if($dir <= $jail){
         die('permission denied');
