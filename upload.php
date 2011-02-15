@@ -13,7 +13,15 @@ require('utils.php');
 require('config.php');
 
 $success = false;
- 
+
+
+    
+function checkFileExtension( $inFile ) {
+    $allowedExtensions = array("txt","csv","htm","html","xml","css","doc","xls","rtf","ppt","pdf","swf","flv","avi","wmv","mov","jpg","jpeg","gif","png"); 
+    if (!in_array(end(explode(".", strtolower($inFile))),  $allowedExtensions)) { 
+       die(jsonResponse(false));
+   }
+}
 // du upload stuff
 
 if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
@@ -22,6 +30,7 @@ if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
         $destfile =  $file['name'];
         checkVar( $destfile );
         $target =  buildPath($BASE_PATH, $destfile);
+        checkFileExtension( $target );
         if (move_uploaded_file($file['tmp_name'], $target)) $success = true;
     }
 } else {
@@ -29,6 +38,7 @@ if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
     $destfile =  $_SERVER['HTTP_X_FILE_NAME'];
     checkVar( $destfile );
     $target =  buildPath($BASE_PATH, $destfile);
+    checkFileExtension( $target );
     if (!@file_put_contents($target, file_get_contents("php://input"))) {
         print jsonResponse(false, 'cannot create file');
         break;
