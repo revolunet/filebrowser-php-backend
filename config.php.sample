@@ -1,0 +1,6 @@
+<?
+// define the path for filebrowser API and UPLOAD
+$BASE_PATH = dirname(__FILE__).DIRECTORY_SEPARATOR.'sample_dir';
+
+
+?>
