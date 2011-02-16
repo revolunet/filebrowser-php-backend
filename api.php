@@ -67,7 +67,9 @@ switch ($xaction) {
     case 'rename':
         // rename file/dir
         $old = buildPath($BASE_PATH, $DATAS['oldname']); 
-        $new = buildPath($BASE_PATH, $DATAS['newname']); 
+        $new = buildPath($BASE_PATH, $DATAS['newname']);
+	// we can only rename to a valid filetype
+	checkFileExtension( $new ); 
         if (!@rename( $old, $new)) {
             print jsonResponse(false, 'cannot rename');
             break;
