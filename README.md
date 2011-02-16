@@ -20,4 +20,4 @@ commands :
 Can be used with [Ext.ux.filebrowser][1]
 
 
-    [1]: https://github.com/revolunet/Ext.ux.filebrowser
+  [1]: https://github.com/revolunet/Ext.ux.filebrowser
