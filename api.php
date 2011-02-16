@@ -107,7 +107,7 @@ switch ($xaction) {
         header ('Content-type: image/'.$ext);
         header('Content-Length: ' . filesize($target)); 
         while (!feof($hd)) {
-            print fread($hd, 4096);
+            print fread($hd, 4096); 
             flush();
         }
         fclose($hd);

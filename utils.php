@@ -10,13 +10,14 @@ function getDirListing( $inDir ) {
     $hd = opendir(  $inDir  );
     while ($file = readdir($hd)) {
         if ($file != '.' and $file != '..') {
+            $ffile = $inDir .DIRECTORY_SEPARATOR.$file;
             $files[$index]['text'] = $file;
-            $files[$index]['lastmod'] = 1272391250000;
-            if (!is_dir($inDir .DIRECTORY_SEPARATOR.$file)) {
+            $files[$index]['modified_time'] = filemtime($ffile);
+            if (!is_dir($ffile)) {
                 $files[$index]['leaf'] = true;
-                $files[$index]['size'] = filesize($inDir .DIRECTORY_SEPARATOR.$file);
+                $files[$index]['size'] = filesize($ffile);
             }
-            $files[$index]['iconCls'] = !is_dir($inDir .DIRECTORY_SEPARATOR.$file) ? "icon-file-".strtolower(substr(strrchr($file, '.'), 1)) : "";
+            $files[$index]['iconCls'] = !is_dir($ffile) ? "icon-file-".strtolower(substr(strrchr($file, '.'), 1)) : "";
             $index++;
         }
     }
