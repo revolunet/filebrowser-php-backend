@@ -18,8 +18,8 @@ commands :
        * `cmd=delete&file=a/nother/file.jpeg` : deletes a file or directory
 
   * UPLOAD
-      * cmd=upload (classic form upload, swfupload...) : with multipart/form-encoded FILES
-      * cmd=upload (html5 drag'n'drop) : with X_FILE_NAME header with raw contents in the request body
+      * `cmd=upload` with multipart/form-encoded FILES  (classic form upload, swfupload...) 
+      * `cmd=upload` with X_FILE_NAME header with raw contents in the request body  (html5 drag'n'drop) 
 
 
 Can be used with [Ext.ux.filebrowser][1]
