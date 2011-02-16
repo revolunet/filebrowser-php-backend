@@ -87,7 +87,7 @@ switch ($xaction) {
                 print jsonResponse(false, 'cannot delete');
                 break;
             }
-        print jsonResponse();
+        print jsonResponse(file_exists( $target )?false:true);
         break;
     case 'view':
         // download target file (using GET)
