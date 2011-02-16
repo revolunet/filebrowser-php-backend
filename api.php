@@ -29,9 +29,12 @@ $DATAS=$_POST;
 
 $xaction = $DATAS['cmd'];
 
-if (isset($_GET['cmd']) && $_GET['cmd']=='view') {
-    // special case for cmd=view which always uses GET (view/download)
-    $xaction = $_GET['cmd'];
+if (isset($_GET['cmd'])) {
+    if ($_GET['cmd']=='view' || $_GET['cmd']=='upload' ) {
+        // special case for cmd=view which always uses GET (view/download)
+        // special case for upload (cannot send in POST along with HTML5 D'n'd
+        $xaction = $_GET['cmd'];
+        }
 }
 
 // the buildPath function is responsible of security
@@ -108,6 +111,31 @@ switch ($xaction) {
             flush();
         }
         fclose($hd);
+        break;
+    case 'upload':
+        if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
+            // classic upload
+            foreach($_FILES as $file) {
+                $destfile =  $file['name'];
+                checkVar( $destfile );
+                $target =  buildPath($BASE_PATH, $destfile);
+                checkFileExtension( $target );
+                if (move_uploaded_file($file['tmp_name'], $target)) $success = true;
+            }
+        } else {
+            // HTML5 single file upload
+            $destfile =  $_SERVER['HTTP_X_FILE_NAME'];
+            checkVar( $destfile );
+            $target =  buildPath($BASE_PATH, $destfile);
+            checkFileExtension( $target );
+            if (!@file_put_contents($target, file_get_contents("php://input"))) {
+                print jsonResponse(false, 'cannot create file');
+                break;
+            }
+            $success = true;
+        }
+
+        print jsonResponse($success);
         break;
 }
   

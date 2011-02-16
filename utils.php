@@ -23,7 +23,14 @@ function getDirListing( $inDir ) {
     return $files;
 }
 
-
+    
+function checkFileExtension( $inFile ) {
+    // check for upload
+    $allowedExtensions = array("txt","csv","htm","html","xml","css","doc","xls","rtf","ppt","pdf","swf","flv","avi","wmv","mov","jpg","jpeg","gif","png"); 
+    if (!in_array(end(explode(".", strtolower($inFile))),  $allowedExtensions)) { 
+       die(jsonResponse(false));
+   }
+}
 
 function get_absolute_path( $path ) {
     // return absolute path from given path
