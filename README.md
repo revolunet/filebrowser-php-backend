@@ -2,7 +2,7 @@ Simple PHP filesystem API for web filebrowsers
 ==
 
 
-**WARNING** : You should place theses files inside a secure folder (eg: .htacces)
+**WARNING** : You should place theses files inside a secure folder (eg: .htacces). Also set $BASE_PATH outside your Apache DOC_ROOT.
 
 Configure `$BASE_PATH` in `config.php` which acts as a jail and root for all the commands.
 
