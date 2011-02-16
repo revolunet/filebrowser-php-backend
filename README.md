@@ -1,4 +1,4 @@
-Simple PHP filesystem API for web filebrowsers
+PHP filesystem API
 ==
 
 
