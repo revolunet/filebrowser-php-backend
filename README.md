@@ -1,6 +1,7 @@
 PHP filesystem API
 ==
 
+Can be used with [Ext.ux.filebrowser][1]
 
 **WARNING** : You should place theses files inside a secure folder (eg: .htacces). Also set $BASE_PATH outside your Apache DOC_ROOT.
 
@@ -22,7 +23,7 @@ commands :
       * `cmd=upload` with X_FILE_NAME header with raw contents in the request body  (html5 drag'n'drop) 
 
 
-Can be used with [Ext.ux.filebrowser][1]
+
 
 
   [1]: https://github.com/revolunet/Ext.ux.filebrowser
