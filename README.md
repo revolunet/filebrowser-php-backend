@@ -17,6 +17,11 @@ commands :
        * `cmd=rename&oldname=path/to/old.txt&newname=path/to/new.jpg` : renames a file or directory
        * `cmd=delete&file=a/nother/file.jpeg` : deletes a file or directory
 
+  * UPLOAD
+      * cmd=upload (classic form upload, swfupload...) : with multipart/form-encoded FILES
+      * cmd=upload (html5 drag'n'drop) : with X_FILE_NAME header with raw contents in the request body
+
+
 Can be used with [Ext.ux.filebrowser][1]
 
 
