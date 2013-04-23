@@ -27,10 +27,10 @@ require('config.php');
 // set to GET for testing purposes, should be POST by default (security)
 $DATAS=$_POST;
 
-$xaction = $DATAS['cmd'];
+if (isset($DATAS['cmd'])) $xaction = $DATAS['cmd'];
 
 if (isset($_GET['cmd'])) {
-    if ($_GET['cmd']=='view' || $_GET['cmd']=='upload' ) {
+    if ($_GET['cmd']=='view' || $_GET['cmd']=='upload'  || $_GET['cmd']=='download') {
         // special case for cmd=view which always uses GET (view/download)
         // special case for upload (cannot send in POST along with HTML5 D'n'd
         $xaction = $_GET['cmd'];
@@ -55,7 +55,7 @@ switch ($xaction) {
         break;
     case 'newdir':
         // create new dir
-        $destfile =  $DATAS['dir'];
+        $destfile =  $DATAS['path'];
         checkVar( $destfile );
         $target =  buildPath($BASE_PATH, $destfile); 
         if (!@mkdir( $target )) {
@@ -114,6 +114,28 @@ switch ($xaction) {
         }
         fclose($hd);
         break;
+    case 'download':
+        // download target file (using GET)
+        $destfile =  $_GET['file'];
+        checkVar( $destfile );
+        $target =  buildPath($BASE_PATH, $destfile); 
+        if (!file_exists( $target )) {
+            print jsonResponse(false, 'file does not exists');
+            break;
+         }
+        $hd = fopen($target, "rb");
+        $ext = strtolower(substr(strrchr($destfile, '.'), 1));
+        header('Content-Type: application/force-download');
+        header('Content-Disposition: attachment; filename='.basename($destfile));
+        //header('Content-Disposition: inline; filename="'. $destfile . '"');
+      //  header ('Content-type: image/'.$ext);
+        header('Content-Length: ' . filesize($target)); 
+        while (!feof($hd)) {
+            print fread($hd, 4096); 
+            flush();
+        }
+        fclose($hd);
+        break;
     case 'upload':
         if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
             // classic upload
@@ -126,7 +148,7 @@ switch ($xaction) {
             }
         } else {
             // HTML5 single file upload
-            $destfile =  $_SERVER['HTTP_X_FILE_NAME'];
+            $destfile = $_SERVER['HTTP_X_FILE_NAME'];
             checkVar( $destfile );
             $target =  buildPath($BASE_PATH, $destfile);
             checkFileExtension( $target );

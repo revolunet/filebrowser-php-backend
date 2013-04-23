@@ -1,4 +1,4 @@
-<?
+<?php
 // general purposes functions
 
 
@@ -9,7 +9,7 @@ function getDirListing( $inDir ) {
     $files = array();
     $hd = opendir(  $inDir  );
     while ($file = readdir($hd)) {
-        if ($file != '.' and $file != '..') {
+        if ($file != '.' and $file != '..' and substr($file, 0, 1) != '.') {
             $ffile = $inDir .DIRECTORY_SEPARATOR.$file;
             $files[$index]['text'] = $file;
             $files[$index]['modified_time'] = filemtime($ffile);
@@ -88,7 +88,7 @@ function buildPath( $root, $path ) {
 
 function jsonResponse($success = true, $msg = null) {
     $d = array(
-        "success" => ($success?'true':'false')
+        "success" => $success
     );
     if ($msg) {
         $d['msg'] = $msg;
